@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 // https: //github.com/expressjs/method-override#custom-logic
-app.use(methodOverride(function (req, res) {
+app.use(methodOverride(function(req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
         let method = req.body._method;
@@ -24,15 +24,15 @@ app.use(methodOverride(function (req, res) {
 let todolist = [];
 
 /* The to do list and the form are displayed */
-app.get('/todo', function (req, res) {
-        res.render('todo.ejs', {
-            todolist,
-            clickHandler: "func1();"
-        });
-    })
+app.get('/todo', function(req, res) {
+    res.render('todo.ejs', {
+        todolist,
+        clickHandler: "func1();"
+    });
+})
 
     /* Adding an item to the to do list */
-    .post('/todo/add/', function (req, res) {
+    .post('/todo/add/', function(req, res) {
         // Escapes HTML special characters in attribute values as HTML entities
         let newTodo = sanitizer.escape(req.body.newtodo);
         if (req.body.newtodo != '') {
@@ -42,7 +42,7 @@ app.get('/todo', function (req, res) {
     })
 
     /* Deletes an item from the to do list */
-    .get('/todo/delete/:id', function (req, res) {
+    .get('/todo/delete/:id', function(req, res) {
         if (req.params.id != '') {
             todolist.splice(req.params.id, 1);
         }
@@ -50,7 +50,7 @@ app.get('/todo', function (req, res) {
     })
 
     // Get a single todo item and render edit page
-    .get('/todo/:id', function (req, res) {
+    .get('/todo/:id', function(req, res) {
         let todoIdx = req.params.id;
         let todo = todolist[todoIdx];
 
@@ -65,8 +65,8 @@ app.get('/todo', function (req, res) {
         }
     })
 
-    // Edit item in the todo list 
-    .put('/todo/edit/:id', function (req, res) {
+    // Edit item in the todo list
+    .put('/todo/edit/:id', function(req, res) {
         let todoIdx = req.params.id;
         // Escapes HTML special characters in attribute values as HTML entities
         let editTodo = sanitizer.escape(req.body.editTodo);
@@ -76,11 +76,11 @@ app.get('/todo', function (req, res) {
         res.redirect('/todo');
     })
     /* Redirects to the to do list if the page requested is not found */
-    .use(function (req, res, next) {
+    .use(function(req, res, next) {
         res.redirect('/todo');
     })
 
-    .listen(port, function () {
+    .listen(port, function() {
         // Logging to console
         console.log(`Todolist running on http://0.0.0.0:${port}`)
     });
