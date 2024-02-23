@@ -11,7 +11,7 @@ Run these commands:
 
 `npm install`
 
-`node app.js`
+`npm run start`
 
 or Run by docker compose
 
